@@ -1,30 +1,28 @@
 ---
-- name: EC2 Playbook
-  hosts: all
-  become: yes
-  
+- hosts: ec2
+  become: true
   tasks:
-  - name: Disable Docker Service
+  - name: Disable Docker
     service:
       name: docker
+      enabled: false
       state: stopped
-      enabled: no
-
-  - name: Install Apache HTTPD
+  - name: Install Apache
     yum:
       name: httpd
-      state: present
-
+      state: latest
+      update_cache: yes
   - name: Start Apache HTTPD Service
     service:
       name: httpd
       state: started
       enabled: yes
-
-  - name: Verify Apache HTTPD Service is Up
-    shell: systemctl is-active httpd
-    register: httpd_status
-  - name: Print Apache HTTPD Service Status
-    debug:
-      var: httpd_status.stdout_lines
+  - name: Copy files
+    copy:
+      src: /hello-2048/public_html/
+      dest: /var/www/html/
+      owner: apache
+      group: apache
+      mode: "0644"
+      directory_mode: "0755"
 
