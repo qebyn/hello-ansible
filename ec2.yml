@@ -16,5 +16,15 @@
       state: present
 
   - name: Start Apache HTTPD Service
-    se
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  - name: Verify Apache HTTPD Service is Up
+    shell: systemctl is-active httpd
+    register: httpd_status
+  - name: Print Apache HTTPD Service Status
+    debug:
+      var: httpd_status.stdout_lines
 
