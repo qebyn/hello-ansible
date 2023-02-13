@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: start AWS instance
+    amazon.aws.ec2_instance:
+      name: "ansible-generated-instance"
+      key_name: clavelucatic2
+      vpc_subnet_id: vpc-0f7c8a3dc031ec194
+      instance_type: t2.micro
+      security_group: sg-00f6a6f34d22821b4
+      network:
+        assign_public_ip: true
+      image_id: ami-0b752bf1df193a6c4
+    
+    
+
+
+
