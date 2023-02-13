@@ -1,0 +1,30 @@
+---
+- name: EC2 Playbook
+  hosts: all
+  become: yes
+  
+  tasks:
+  - name: Disable Docker Service
+    service:
+      name: docker
+      state: stopped
+      enabled: no
+
+  - name: Install Apache HTTPD
+    yum:
+      name: httpd
+      state: present
+
+  - name: Start Apache HTTPD Service
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  - name: Verify Apache HTTPD Service is Up
+    shell: systemctl is-active httpd
+    register: httpd_status
+  - name: Print Apache HTTPD Service Status
+    debug:
+      var: httpd_status.stdout_lines
+
