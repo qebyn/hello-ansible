@@ -6,7 +6,7 @@
     amazon.aws.ec2_instance:
       name: "ansible-generated-instance"
       key_name: clavelucatic2
-      vpc_subnet_id: vpc-0f7c8a3dc031ec194
+      vpc_subnet_id: subnet-0618f5dbc5a4b2f81
       instance_type: t2.micro
       security_group: sg-00f6a6f34d22821b4
       network:
