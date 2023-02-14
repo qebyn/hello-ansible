@@ -19,12 +19,17 @@
          image_id: "{{ image }}"
          region: "{{ region }}"
          vpc_subnet_id: "{{ subnet_id }}"
+         count: "2"
          network:
            assign_public_ip: true
-         count: 3
          tags:
-           Environment: ansibleInstance
+          Name: ansibleInstance
+          APP: vue2048 
       register: ec2
+
+    - name: Print ec2_instance return information
+      ansible.builtin.debug:
+        var: ec2
 
     - name: Add new instance to host group
       add_host:
@@ -48,25 +53,4 @@
   gather_facts: true
   vars:
     ansible_user: ec2-user
-  tasks:
-    - name: Install httpd
-      yum:
-        name: httpd
-        state: present
-        update_cache: yes
-    - name: Start httpd
-      ansible.builtin.service:
-        name: httpd
-        state: started
-    - name: Enable httpd
-      ansible.builtin.service:
-        name: httpd
-        enabled: yes
-    - name: Copy file with owner and permissions
-      ansible.builtin.copy:
-        src: /home/sinensia/hello-2048/public_html/
-        dest: /var/www/html/
-        owner: apache
-        group: apache
-        mode: '0644'
-        directory_mode: '0755'
+
