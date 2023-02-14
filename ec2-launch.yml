@@ -1,19 +1,19 @@
----
+i---
 - name: Create a micro instance
   hosts: localhost
   gather_facts: false
   vars:
     keypair: clavelucatic2
     instance_type: t2.micro
-    security_group: default
+    security_group: sg-00f6a6f34d22821b4
     subnet_id: subnet-0618f5dbc5a4b2f81
     image: ami-0b752bf1df193a6c4
     region: eu-west-1
   tasks:
-    - name: Install Galaxy
+    - name: Launch instance
       amazon.aws.ec2_instance:
          key_name: "{{ keypair }}"
-         group: "{{ security_group }}"
+         security_group: "{{ security_group }}"
          instance_type: "{{ instance_type }}"
          image: "{{ image }}"
          wait: true
@@ -21,6 +21,7 @@
          vpc_subnet_id: "{{ subnet_id }}"
          network:
            assign_public_ip: yes
+         tags:
          instance_tags:
            Name: ansibleInstance
            APP: vue2048
